@@ -4,29 +4,24 @@
 #include <QtSql/QSqlQuery>
 #include <QDebug>
 #include <QTime>
-#include <QStringList> // N'oubliez pas d'ajouter cette ligne
-#include <qstring.h>
-#include <qbytearray.h>
-#include <qlist.h>
-#include <qiodevice.h>
-
-
-
+#include <QStringList>
+#include <QTimer>
 
 class SerialReader : public QObject
 {
     Q_OBJECT
 
 public:
-    SerialReader(QObject * parent = nullptr) : QObject(parent), gpsData(""), db(QSqlDatabase::addDatabase("QMYSQL"))
+    SerialReader(QObject* parent = nullptr) : QObject(parent), gpsData(""), db(QSqlDatabase::addDatabase("QMYSQL"))
     {
         configureSerialPort();
         configureDatabase();
+        connect(&serialPort, &QSerialPort::readyRead, this, &SerialReader::onReadyRead);
+        QTimer::singleShot(1000, this, &SerialReader::onReadyRead); // Démarrer la lecture après un délai initial d'une seconde
     }
 
     virtual ~SerialReader()
     {
-        
         if (db.isOpen()) {
             db.close();
         }
@@ -44,11 +39,11 @@ public slots:
 
     void processGpsData()
     {
-        QStringList sentencesList = QString(gpsData).split('\n'); // Modification ici
+        QStringList sentencesList = QString(gpsData).split('\n');
         QList<QByteArray> sentences;
 
         for (const QString& sentence : sentencesList) {
-            QByteArray byteArray = sentence.toLocal8Bit(); // Modification ici
+            QByteArray byteArray = sentence.toLocal8Bit();
             sentences.append(byteArray);
         }
 
@@ -65,7 +60,7 @@ public slots:
                     QString timeString = currentTime.toString("hh:mm:ss");
 
                     qDebug() << "Time: " << timeString << ", Latitude: " << latitude << ", Longitude: " << longitude;
-                    
+
                     QSqlQuery query(db);
                     query.prepare("INSERT INTO GPS (Longitude, Latitude, Heure) VALUES (:longitude, :latitude, :time)");
                     query.bindValue(":longitude", QString(longitude));
@@ -76,12 +71,14 @@ public slots:
                         qDebug() << "Données insérées avec succès dans la base de données.";
                     }
                     else {
-                       // qWarning() << "Erreur d'insertion dans la base de données : " << query.lastError().text();
+                        //qWarning() << "Erreur d'insertion dans la base de données : " << query.lastError().text();
                     }
-                    
                 }
             }
         }
+
+        // Ajoutez un délai d'une seconde avant de continuer la lecture
+        QTimer::singleShot(1000, this, &SerialReader::onReadyRead);
     }
 
 private:
@@ -98,13 +95,11 @@ private:
         serialPort.setStopBits(QSerialPort::OneStop);
         serialPort.setFlowControl(QSerialPort::NoFlowControl);
 
-        connect(&serialPort, &QSerialPort::readyRead, this, &SerialReader::onReadyRead);
-
         if (serialPort.open(QIODevice::ReadOnly)) {
             qDebug() << "Port série ouvert.";
         }
         else {
-            qWarning() << "Impossible d'ouvrir le port série.";
+            qWarning() << "Impossible d'ouvrir le port série : " << serialPort.errorString();
         }
     }
 
@@ -119,7 +114,7 @@ private:
             qDebug() << "Connexion réussie à " << db.hostName() << " base de données.";
         }
         else {
-         //   qWarning() << "La connexion à la base de données a échoué : " << db.lastError().text();
+            //qWarning() << "La connexion à la base de données a échoué : " << db.lastError().text();
         }
     }
 };
