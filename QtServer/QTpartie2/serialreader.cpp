@@ -26,7 +26,6 @@ void SerialReader::onReadyRead() {
         gpsData += data;
         processGpsData();
     }
-
     QThread::msleep(1000); 
 }
 
@@ -41,9 +40,6 @@ void SerialReader::configureSerialPort() {
     if (serialPort.open(QIODevice::ReadOnly)) {
         qDebug() << "Port serie ouvert.";
     }
-    else {
-        //qWarning() << "Impossible d'ouvrir le port serie : " << serialPort.errorString();
-    }
 }
 
 void SerialReader::configureDatabase() {
@@ -54,9 +50,6 @@ void SerialReader::configureDatabase() {
     db.setPassword("root");
     if (db.open()) {
         qDebug() << "Connexion reussie a " << db.hostName() << " base de données.";
-    }
-    else {
-        //qWarning() << "La connexion a la base de donnees a echoue : " << db.lastError().text();
     }
 }
 
@@ -72,10 +65,10 @@ void SerialReader::processGpsData() {
         if (sentence.startsWith("$GPGGA")) {
             QList<QByteArray> fields = sentence.split(',');
             if (fields.size() >= 10) {
-                QByteArray latitude = fields[2];
+                QByteArray rawLatitude = fields[2];
+                QString latitude = QString::fromUtf8(rawLatitude).remove(QRegExp("^50"));
                 QByteArray rawLongitude = fields[4];
-                double longitudeValue = rawLongitude.toDouble();
-                QString longitude = QString::number(longitudeValue, 'f', 6);
+                QString longitude = QString::fromUtf8(rawLongitude).remove(QRegExp("^0*1"));
                 QTime currentTime = QTime::currentTime();
                 QString timeString = currentTime.toString("hh:mm:ss");
                 qDebug() << "Time: " << timeString << ", Latitude: " << latitude << ", Longitude: " << longitude;
@@ -88,9 +81,7 @@ void SerialReader::processGpsData() {
 
                 if (query.exec()) {
                     qDebug() << "Donnees inserees avec succes dans la base de donnees.";
-                }
-                else {
-                    //qWarning() << "Erreur d'insertion dans la base de données : " << query.lastError().text();
+
                 }
             }
         }
@@ -98,3 +89,4 @@ void SerialReader::processGpsData() {
 
     QTimer::singleShot(1000, this, &SerialReader::onReadyRead);
 }
+
