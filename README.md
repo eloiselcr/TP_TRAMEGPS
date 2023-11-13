@@ -49,7 +49,19 @@ Tout est déjà configuré, est un Admin existe sous le nom de 'admin' avec pour
     *GANTT_previ.xlsx* -> document GANTT prévisionnel du projet  
     *GANTT_final.xlsx* -> document GANTT final du projet  
     *presentation.pttx* -> présentation du pojet sur PowerPoint  
-    *TP2_CommunicationSerie.pdf* -> Rappel du projet avec le fichier pdf  
+    *TP2_CommunicationSerie.pdf* -> Rappel du projet avec le fichier pdf
+
+  * __./QtServer__
+     __/QTpartie2__  
+        *database.cpp* -> fichier permetant la connexion à la BDD et l'envoi des trames  
+        *main.cpp* -> fichier de base pour Qt
+        *Qtpartie2.vcxproj*
+        *Qtpartie2.vcxproj.filters*
+        *Qtpartie2.vcxproj.user*
+        *serialreader.cpp* -> fichier utilisé pour la réception et le décodage des trames
+        *serialreader.h* -> déclaration de la classe et des méthodes  
+    *Qtpartie2.sln* -> fichier qui vous permet d'ouvrir directement tout le projet  
+        
 
 *readme.md* -> ce même fichier que vous êtes en train de lire pour vous aider à comprendre le code  
 
