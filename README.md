@@ -45,10 +45,10 @@ Tout est déjà configuré, est un Admin existe sous le nom de 'admin' avec pour
 
 * __./documentation__  
     *cahier_des_charges.docx* -> document qui contient le cahier des charges   
-    *recettage_test.docx* -> document listant les fonctionnalités et contenant les tests réalisés pour le projet  
     *GANTT_previ.xlsx* -> document GANTT prévisionnel du projet  
     *GANTT_final.xlsx* -> document GANTT final du projet  
     *presentation.pttx* -> présentation du pojet sur PowerPoint  
+    *recettage_tests.docx* -> document listant les fonctionnalités et contenant les tests réalisés pour le projet  
     *TP2_CommunicationSerie.pdf* -> Rappel du projet avec le fichier pdf
 
 * __./QtServer__  
