@@ -52,7 +52,7 @@ Tout est déjà configuré, est un Admin existe sous le nom de 'admin' avec pour
     *TP2_CommunicationSerie.pdf* -> Rappel du projet avec le fichier pdf
 
   * __./QtServer__
-     __/QTpartie2__  
+              __/QTpartie2__  
         *database.cpp* -> fichier permetant la connexion à la BDD et l'envoi des trames  
         *main.cpp* -> fichier de base pour Qt
         *Qtpartie2.vcxproj*
