@@ -1,14 +1,11 @@
 <?php
-$ipserver = "192.168.65.195"; // A modifier si vous travaillez chez vous
-$bdd = "BASE";
-$login_bdd = "root";
-$password = "root";
-
-try {
-    $pdo = new PDO('mysql:host=' . $ipserver . ';dbname=' . $bdd . '', $login_bdd, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion à la base de données : " . $e->getMessage());
-}
-
-?>
+    $ipServerSQL ="192.168.65.195";
+    $NomBase = "BASE";
+    $userBDD = "root";
+    $PassBDD = "root";
+    try {
+        $BasePDO = new PDO('mysql:host='.$ipServerSQL.';dbname='.$NomBase.';port=3306',$userBDD, $PassBDD);
+    }catch (Exception $e) {
+        echo $e->getMessage();
+        }
+    ?>

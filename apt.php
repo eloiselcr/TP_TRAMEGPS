@@ -1,5 +1,11 @@
-<?php 
-session_start();
+
+
+
+
+
+
+ <?php 
+Session_start();
 
 include "BDD.php";
 include "Fonction.php";

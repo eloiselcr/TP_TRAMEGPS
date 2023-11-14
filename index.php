@@ -1,11 +1,9 @@
 <?php
 session_start();
 include "BDD.php";
-include "connexion";
+include "connexion.php";
 include "Fonction.php";
 Deconnexion();
-
-Verif();
 ?>
 
 <!DOCTYPE html>
