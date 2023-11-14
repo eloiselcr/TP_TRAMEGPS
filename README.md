@@ -4,7 +4,7 @@
 ## 1° LES ACCÈS
 
 Le projet peut être accessible via 2 IP :  
-    - __192.168.65.186__, l'adresse sur laquelle vous pouvez accéder au site.  
+    - __192.168.65.237__, l'adresse sur laquelle vous pouvez accéder au site.  
     - __192.168.64.157__, l'adresse sur laquelle vous pouvez accéder à la BDD.
 
 
