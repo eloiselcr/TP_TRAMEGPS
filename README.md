@@ -69,6 +69,6 @@ Tout est déjà configuré, est un Admin existe sous le nom de 'admin' avec pour
 -----------------
 
 
-Pour toutes questions sur le projet (en ce qui concerne la première partie), n'hésitez pas à venir demander à Tom, Junior, Alexandre ou Éloïse pour plus d'informations.  
+Pour toutes questions sur le projet (en ce qui concerne la deuxième partie), n'hésitez pas à venir demander à Tom, Junior, Alexandre ou Éloïse pour plus d'informations.  
 
 Enjoy ! 
