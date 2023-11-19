@@ -149,36 +149,39 @@ if (isset($_POST['modifier_mdp'])) {
                   </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-                  <h6 class="p-3 mb-0">Profil</h6>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-dark rounded-circle">
-                        <i class="mdi mdi-settings text-success"></i>
-                      </div>
+                <h6 class="p-3 mb-0">Profil</h6>
+                <div class="dropdown-divider"></div>
+                <!-- Bouton "Paramètres" transformé en lien -->
+                <a class="dropdown-item preview-item" href="../settings/parametres.php">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-dark rounded-circle">
+                      <i class="mdi mdi-settings text-success"></i>
                     </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Paramètres</p>
+                  </div>
+                  <div class="preview-item-content">
+                    <p class="preview-subject mb-1">Paramètres</p>
+                  </div>
+                </a>
+
+                <!-- Bouton "Déconnexion" transformé en formulaire POST -->
+                <form method="post" class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-dark rounded-circle">
+                      <i class="mdi mdi-logout text-danger"></i>
                     </div>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-dark rounded-circle">
-                        <i class="mdi mdi-logout text-danger"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Déconnexion</p>
-                    </div>
-                  </a>
-              </li>
-            </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-              <span class="mdi mdi-format-line-spacing"></span>
-            </button>
-          </div>
-        </nav>
+                  </div>
+                  <div class="preview-item-content">
+                    <button type="submit" name="deconnexion" class="btn btn-link preview-subject mb-1" style="color: #dc3545;">Déconnexion</button>
+                  </div>
+                </form>
+              </div>
+            </li>
+          </ul>
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <span class="mdi mdi-format-line-spacing"></span>
+          </button>
+        </div>
+      </nav>
 
         <!-- partial -->
 

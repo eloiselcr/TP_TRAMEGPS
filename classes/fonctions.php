@@ -42,7 +42,7 @@ class Users
 
     // -- Méthodes : fonctions pour interagir avec l'Users --
 
-    // 2) Inscription d'un Users
+    // 1) Inscription d'un Users
     public function Inscription($pseudo, $mdp)
     {
         // Vérifier si le pseudo existe pas déjà
@@ -65,7 +65,7 @@ class Users
     }
 
 
-    // 3) Autorisation pour que l'Users accès au site + vérification s'il est Admin ou pas
+    // 2) Autorisation pour que l'Users accès au site + vérification s'il est Admin ou pas
     public function Verification($pseudo, $mdp)
     {
         // Recherche de l'Users dans la BDD avec le pseudo
@@ -96,20 +96,7 @@ class Users
         return false; // Authentification échouée
     }
 
-
-    /* 4) Modifier un Users
-    public function ModifierUsers($pseudo, $nouveaupseudo, $nouveaumdp) {
-        $sql = "UPDATE Users SET pseudo = '$nouveaupseudo', mdp = '$nouveaumdp' WHERE pseudo = '$pseudo'"; // Requête pour modifier pseudo + mdp
-        if ($GLOBALS["pdo"]->exec($sql) !== false) {
-            echo '<script>setTimeout(function(){ window.location = "admin.php"; }, 2000);</script>';
-            return true; // Modification réussie
-        } else {
-            return "Erreur lors de la modification de l'utilisateur.";
-        }
-    }*/
-
-
-    // 4) Modifier le pseudo d'un utilisateur
+    // 3) Modifier le pseudo d'un utilisateur
     public function ModifierPseudo($pseudo, $nouveaupseudo)
     {
         $sql = "UPDATE Users SET pseudo = '$nouveaupseudo' WHERE pseudo = '$pseudo'";
@@ -120,6 +107,7 @@ class Users
         }
     }
 
+    // 4) Modifier le mot de passe d'un utilisateur
     public function ModifierMotDePasse($pseudo, $nouveaumdp)
     {
         $sql = "UPDATE Users SET mdp = '$nouveaumdp' WHERE pseudo = '$pseudo'";
@@ -130,7 +118,7 @@ class Users
         }
     }
 
-    // 5) Supprimer un Users
+    // 5) Supprimer un User
     public function SupprimerUsers($pseudo)
     {
         $sql = "DELETE FROM Users WHERE pseudo = '$pseudo'";
@@ -143,7 +131,7 @@ class Users
     }
 
 
-    // 6) Déconnecter l'Users
+    // 6) Déconnecter l'User
     public function Deconnexion()
     {
         session_unset();
@@ -156,7 +144,7 @@ class Users
         }
     }
 
-
+    // 7) Afficher tous les users dans un tableau
     public static function AfficherTableauUtilisateurs()
     {
         $sql = "SELECT id, pseudo, mdp, admin FROM Users"; // On récupère tous les utilisateurs de la BDD
