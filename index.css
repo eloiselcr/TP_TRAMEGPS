@@ -88,13 +88,14 @@ input {
 }
 
 .btn {
-    margin-top: 30px;
+    margin-top: 20px; /* Ajustez la marge du bouton */
+    height: 45px; /* Ajustez la hauteur du bouton pour l'inscription */
+    font-size: 16px; /* Ajustez la taille du texte du bouton */
     width: 100%;
     background-color: #ffffff;
     color: #080710;
-    padding: 15px 0;
-    font-size: 18px;
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
 }
+
