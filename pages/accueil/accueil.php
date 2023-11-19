@@ -21,6 +21,21 @@ if (isset($_POST['deconnexion'])) {
   exit;
 }
 
+$sql = "SELECT Longitude, Latitude, Heure FROM GPS ORDER BY Heure";
+$result = $GLOBALS["pdo"]->query($sql);
+
+if ($result === false) {
+  die('Erreur SQL : ' . $GLOBALS["pdo"]->errorInfo()[2]);
+}
+
+$coordinates = [];
+
+while ($row = $result->fetch()) {
+  $coordinates[] = [(float)$row['Latitude'], (float)$row['Longitude']];
+}
+
+echo json_encode($coordinates);
+
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +60,8 @@ if (isset($_POST['deconnexion'])) {
   <link rel="stylesheet" href="../../bootstrap_requirements/assets/css/style.css">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="../../bootstrap_requirements/assets/images/favicon.png" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> <!-- maps -->
 </head>
 
 <body>
@@ -171,8 +188,9 @@ if (isset($_POST['deconnexion'])) {
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Default form</h4>
-                  <p class="card-description"> Basic form layout </p>
+                  <h4 class="card-title">Logitek</h4>
+                  <p class="card-description"> Logitek est un site permettant de visionner les dernières positions d'un GPS grâce 
+                    aux coordonées. Il utilise un système en C++ avec Qt ainsi qu'une base de données pour fonctionner. </p>
                 </div>
               </div>
             </div>
@@ -180,8 +198,12 @@ if (isset($_POST['deconnexion'])) {
             <div class="col-md-6 grid-margin stretch-card"> <!-- 2 -->
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Horizontal Form</h4>
-                  <p class="card-description"> Horizontal form layout </p>
+                  <h4 class="card-title">Liens utiles</h4>
+                  <p class="card-description"> Voici les liens : 
+                    Le lien du repository Github <a href="https://github.com/eloiselcr/TP_TRAMEGPS">ici</a>.
+                  </br>L'IP de la BDD est 192.168.64.157
+                  </br>L'IP du site est 192.168.65.186 
+                  </p>
                 </div>
               </div>
             </div>
@@ -189,38 +211,34 @@ if (isset($_POST['deconnexion'])) {
             <div class="col-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Basic form elements</h4>
-                  <p class="card-description"> Basic form elements </p>
+                  <h4 class="card-title">Maps</h4>
+                  <p class="card-description"> Vous pouvez voir les dernières coordonnées ici. </p>
 
                   <!-- Ajout de la balise div avec l'id "map" -->
                   <div id="map" style="height: 400px;"></div>
                   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
                   <script>
-                    var map = L.map('map').setView([0, 0], 2); // Initialise la carte avec un zoom de 2
+                    var map = L.map('map').setView([0, 0], 2);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     }).addTo(map);
 
-                    // Utilisez PHP pour récupérer la dernière donnée GPS de la base de données
-                    <?php
-                    $sql = "SELECT Longitude, Latitude, Heure FROM GPS ORDER BY Heure"; // Sélectionne le dernier enregistrement
-                    $result = $BasePDO->query($sql);
+                    // Utilisez JavaScript pour récupérer les données depuis le fichier PHP
+                    fetch('test.php')
+                      .then(response => response.json())
+                      .then(coordinates => {
+                        coordinates.forEach(coord => {
+                          L.marker([coord[0], coord[1]]).addTo(map).bindPopup('Coordonnées : ' + coord[0] + ', ' + coord[1]);
+                        });
 
-                    if ($result === false) {
-                      die('Erreur SQL : ' . $BasePDO->errorInfo()[2]);
-                    }
-
-                    // Récupérez la seule ligne résultat, s'il y en a
-                    if ($row = $result->fetch()) {
-                      // Utilisez un marqueur standard pour représenter la position GPS
-                      echo "L.marker([" . $row['Latitude'] . ", " . $row['Longitude'] . "]).addTo(map).bindPopup('Heure : " . $row['Heure'] . "');";
-                    }
-                    // Utilisez L.polyline pour afficher la courbe sur la carte
-                    echo "L.polyline(" . json_encode($coordinates) . ").addTo(map);";
-                    ?>
+                        // Utilisez L.polyline pour afficher la courbe sur la carte
+                        L.polyline(coordinates).addTo(map);
+                      })
+                      .catch(error => console.error('Erreur lors de la récupération des coordonnées:', error));
                   </script>
-                  
+
+
                 </div>
               </div>
             </div>
