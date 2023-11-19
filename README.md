@@ -17,10 +17,10 @@ Actuellement, la BDD contient 1 base. Vous pouvez y accéder grâce au couple d'
 
 BDD     	
 
-      └── user  
+      └── Users    
         ├── id : int (clé primaire)  
         ├── pseudo : varchar (255)  
-        └── MDP : varchar (255)  
+        └── mdp : varchar (255)  
         └── admin : tinynint (1)  
 
       └── GPS    
