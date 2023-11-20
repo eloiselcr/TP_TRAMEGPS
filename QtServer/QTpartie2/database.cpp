@@ -12,9 +12,9 @@
 
 Database::Database()
 {
-    // Configuration de la connexion ï¿½ la base de donnï¿½es MySQL
+    // Configuration de la connexion à la base de données MySQL
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL"); // ou mettre QSQLITE pour SQLite
-    db.setHostName("192.168.65.195");
+    db.setHostName("192.168.64.157");
     db.setUserName("root");
     db.setPassword("root");
     db.setDatabaseName("BDD"); // ou mettre le nom du fichier sqlite
@@ -48,14 +48,14 @@ bool Database::insertGpsData(const QString& time, const QByteArray& latitude, co
         query.exec(queryString);
 
         if (query.lastError().isValid()) {
-            qWarning() << "Erreur d'insertion dans la base de donnï¿½es : " << query.lastError().text();
+            qWarning() << "Erreur d'insertion dans la base de données : " << query.lastError().text();
         }
         else {
             return true;
         }
     }
     else {
-        qWarning() << "Impossible de se connecter ï¿½ la base de donnï¿½es.";
+        qWarning() << "Impossible de se connecter à la base de données.";
     }
     return false;
 }
