@@ -1,5 +1,7 @@
 <?php
 
+    // -- Class Users --
+
 class Users
 {
     private $id;
@@ -7,8 +9,7 @@ class Users
     private $mdp;
     private $Admin;
 
-    public function __construct($id, $pseudo, $mdp, $Admin)
-    {
+    public function __construct($id, $pseudo, $mdp, $Admin) { // Constructeur
         $this->id = $id;
         $this->pseudo = $pseudo;
         $this->mdp = $mdp;
@@ -16,31 +17,28 @@ class Users
     }
 
 
-    // -- Méthodes : accès aux propriétés --
+    // -- Méthodes --
 
 
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
-    public function getpseudo()
-    {
+    public function getpseudo() {
         return $this->pseudo;
     }
 
-    public function getmdp()
-    {
+    public function getmdp() {
         return $this->mdp;
     }
 
-    public function getAdmin()
-    {
+    public function getAdmin() {
         return $this->Admin;
     }
 
 
-    // -- Méthodes : fonctions pour interagir avec l'Users --
+    // -- Méthodes : fonctions  --
+
 
     // 1) Inscription d'un Users
     public function Inscription($pseudo, $mdp)
@@ -54,7 +52,7 @@ class Users
             return "Un utilisateur avec le même pseudo existe déjà.";
         }
 
-        // Insérer le nouvel Users dans la BDD
+        // Insérer le nouvel User dans la BDD
         $sql = "INSERT INTO Users (pseudo, mdp) VALUES ('$pseudo', '$mdp')";
 
         if ($GLOBALS["pdo"]->exec($sql) !== false) {
@@ -96,8 +94,9 @@ class Users
         return false; // Authentification échouée
     }
 
+
     // 3) Modifier le pseudo d'un utilisateur
-    public function ModifierPseudo($pseudo, $nouveaupseudo)
+    public function ModifierPseudo($pseudo, $nouveaupseudo) 
     {
         $sql = "UPDATE Users SET pseudo = '$nouveaupseudo' WHERE pseudo = '$pseudo'";
         if ($GLOBALS["pdo"]->exec($sql) !== false) {
@@ -106,6 +105,7 @@ class Users
             return "Erreur lors de la modification du pseudo de l'utilisateur.";
         }
     }
+
 
     // 4) Modifier le mot de passe d'un utilisateur
     public function ModifierMotDePasse($pseudo, $nouveaumdp)
@@ -117,6 +117,7 @@ class Users
             return "Erreur lors de la modification du mot de passe de l'utilisateur.";
         }
     }
+
 
     // 5) Supprimer un User
     public function SupprimerUsers($pseudo)
@@ -200,6 +201,7 @@ class Users
     }
 
 
+    // 8) Récupérer l'id d'un user
     public static function getPseudoById($userID)
     {
         $sql = "SELECT pseudo FROM Users WHERE id = '$userID'";

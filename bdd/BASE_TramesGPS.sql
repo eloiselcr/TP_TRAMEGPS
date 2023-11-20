@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : lun. 20 nov. 2023 à 12:48
+-- Généré le : lun. 20 nov. 2023 à 13:10
 -- Version du serveur : 10.5.18-MariaDB-0+deb11u1
 -- Version de PHP : 7.4.33
 
@@ -39,7 +39,8 @@ CREATE TABLE `GPS` (
 --
 
 INSERT INTO `GPS` (`id`, `Longitude`, `Latitude`, `Heure`) VALUES
-(1, '53.5688000', '30.7915000', '2023-08-10 17:09:37');
+(1, '53.5688000', '30.7915000', '2023-08-10 17:09:37'),
+(2, '50.5688000\r\n\r\n', '35.7915000', '2023-08-10 19:08:37');
 
 -- --------------------------------------------------------
 
@@ -51,7 +52,7 @@ CREATE TABLE `Users` (
   `id` int(11) NOT NULL,
   `pseudo` varchar(255) NOT NULL,
   `mdp` varchar(255) NOT NULL,
-  `admin` int(1) DEFAULT NULL
+  `admin` int(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -92,7 +93,7 @@ ALTER TABLE `GPS`
 -- AUTO_INCREMENT pour la table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -168,7 +168,7 @@ if (isset($_POST['deconnexion'])) {
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a>Acceuil</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Acceuil</li>
+                <li class="breadcrumb-item active" aria-current="page">Maps</li>
               </ol>
             </nav>
           </div>
