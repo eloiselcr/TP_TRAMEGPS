@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : mar. 14 nov. 2023 à 09:02
--- Version du serveur : 10.5.19-MariaDB-0+deb11u2
+-- Généré le : lun. 20 nov. 2023 à 12:48
+-- Version du serveur : 10.5.18-MariaDB-0+deb11u1
 -- Version de PHP : 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `BDD`
+-- Base de données : `BASE_TramesGPS`
 --
 
 -- --------------------------------------------------------
@@ -34,26 +34,33 @@ CREATE TABLE `GPS` (
   `Heure` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `GPS`
+--
+
+INSERT INTO `GPS` (`id`, `Longitude`, `Latitude`, `Heure`) VALUES
+(1, '53.5688000', '30.7915000', '2023-08-10 17:09:37');
+
 -- --------------------------------------------------------
 
 --
--- Structure de la table `user`
+-- Structure de la table `Users`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE `Users` (
   `id` int(11) NOT NULL,
   `pseudo` varchar(255) NOT NULL,
-  `MDP` varchar(255) NOT NULL,
-  `admin` tinyint(1) DEFAULT NULL
+  `mdp` varchar(255) NOT NULL,
+  `admin` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `user`
+-- Déchargement des données de la table `Users`
 --
 
-INSERT INTO `user` (`id`, `pseudo`, `MDP`, `admin`) VALUES
-(1, 'admin', 'nimda', 1),
-(2, 'rapidecho', 'juliencode', 0);
+INSERT INTO `Users` (`id`, `pseudo`, `mdp`, `admin`) VALUES
+(1, 'admin', 'root', 1),
+(2, 'user', '1234', 0);
 
 --
 -- Index pour les tables déchargées
@@ -66,9 +73,9 @@ ALTER TABLE `GPS`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `user`
+-- Index pour la table `Users`
 --
-ALTER TABLE `user`
+ALTER TABLE `Users`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -82,10 +89,10 @@ ALTER TABLE `GPS`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1731;
 
 --
--- AUTO_INCREMENT pour la table `user`
+-- AUTO_INCREMENT pour la table `Users`
 --
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+ALTER TABLE `Users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

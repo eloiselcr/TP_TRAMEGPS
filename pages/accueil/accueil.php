@@ -3,6 +3,7 @@
 session_start();
 include("../../bdd/bdd.php");
 include("../../classes/fonctions.php");
+include("get_coordinates.php");
 
 $pseudo = $_SESSION['id_utilisateur'];
 $admin = $_SESSION['admin'];
@@ -16,25 +17,10 @@ if (!isset($_SESSION['id_utilisateur'])) {
 
 // Si l'utilisateur souhaite se déconnecter
 if (isset($_POST['deconnexion'])) {
-  Users::Deconnexion(); // Appel de la fonction "Deconnexion" dans la Class User
-  header('location: ../../index.php'); // Redirection vers la page de connexion
+  Users::Deconnexion(); 
+  header('location: ../../index.php'); 
   exit;
 }
-
-$sql = "SELECT Longitude, Latitude, Heure FROM GPS ORDER BY Heure";
-$result = $GLOBALS["pdo"]->query($sql);
-
-if ($result === false) {
-  die('Erreur SQL : ' . $GLOBALS["pdo"]->errorInfo()[2]);
-}
-
-$coordinates = [];
-
-while ($row = $result->fetch()) {
-  $coordinates[] = [(float)$row['Latitude'], (float)$row['Longitude']];
-}
-
-echo json_encode($coordinates);
 
 ?>
 
@@ -192,7 +178,7 @@ echo json_encode($coordinates);
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Logitek</h4>
-                  <p class="card-description"> Logitek est un site permettant de visionner les dernières positions d'un GPS grâce 
+                  <p class="card-description"> Logitek est un site permettant de visionner les dernières positions d'un GPS grâce
                     aux coordonées. Il utilise un système en C++ avec Qt ainsi qu'une base de données pour fonctionner. </p>
                 </div>
               </div>
@@ -202,10 +188,10 @@ echo json_encode($coordinates);
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Liens utiles</h4>
-                  <p class="card-description"> Voici les liens : 
+                  <p class="card-description"> Voici les liens :
                     Le lien du repository Github <a href="https://github.com/eloiselcr/TP_TRAMEGPS">ici</a>.
-                  </br>L'IP de la BDD est 192.168.64.157
-                  </br>L'IP du site est 192.168.65.186 
+                    </br>L'IP de la BDD est 192.168.64.157
+                    </br>L'IP du site est 192.168.65.186
                   </p>
                 </div>
               </div>
@@ -221,22 +207,30 @@ echo json_encode($coordinates);
                   <div id="map" style="height: 400px;"></div>
                   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
                   <script>
+                    // Initialiser la carte avec une vue centrée sur [0, 0] et un niveau de zoom de 2
                     var map = L.map('map').setView([0, 0], 2);
 
+                    // Ajouter une couche de tuiles OpenStreetMap à la carte
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     }).addTo(map);
 
-                    // Utilisez JavaScript pour récupérer les données depuis le fichier PHP
-                    fetch('test.php')
+                    // Récupérer les coordonnées depuis le fichier PHP et afficher les marqueurs et la ligne
+                    fetch('get_coordinates.php')
                       .then(response => response.json())
                       .then(coordinates => {
+                        // Ajouter un marqueur pour chaque coordonnée avec un popup affichant l'ID, les coordonnées et l'heure
                         coordinates.forEach(coord => {
-                          L.marker([coord[0], coord[1]]).addTo(map).bindPopup('Coordonnées : ' + coord[0] + ', ' + coord[1]);
+                          L.marker([coord.latitude, coord.longitude]).addTo(map).bindPopup('ID: ' + coord.id + '<br>Coordonnées : ' + coord.latitude + ', ' + coord.longitude + '<br>Heure : ' + coord.heure);
                         });
 
-                        // Utilisez L.polyline pour afficher la courbe sur la carte
-                        L.polyline(coordinates).addTo(map);
+                        // Utiliser L.polyline pour afficher la ligne bleue reliant les marqueurs
+                        var polyline = L.polyline(coordinates.map(coord => [coord.latitude, coord.longitude]), {
+                          color: 'blue'
+                        }).addTo(map);
+
+                        // Ajuster la vue de la carte pour afficher tous les marqueurs
+                        map.fitBounds(polyline.getBounds());
                       })
                       .catch(error => console.error('Erreur lors de la récupération des coordonnées:', error));
                   </script>
